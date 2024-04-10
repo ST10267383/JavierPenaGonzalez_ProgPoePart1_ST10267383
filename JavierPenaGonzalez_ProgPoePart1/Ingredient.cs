@@ -1,4 +1,4 @@
-﻿namespace Recipe
+﻿namespace JavierPenaGonzalezProgPoePart1
 {
     
     class Ingredient
