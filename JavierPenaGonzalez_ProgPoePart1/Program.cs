@@ -10,39 +10,40 @@ namespace JavierPenaGonzalez_ProgPoePart1
         {
             Console.WriteLine("You will now create your recipe"); //prompts user to enter recipe
 
-            Console.Write("Enter the number of ingredients: ");
-            int numIngredients = int.Parse(Console.ReadLine());
+                Console.Write("Enter the number of ingredients: ");
+                    int numIngredients = int.Parse(Console.ReadLine()); 
 
             string[] ingredientNames = new string[numIngredients]; //create arrays to hold values
             double[] ingredientQuantities = new double[numIngredients];
             string[] ingredientUnits = new string[numIngredients];
 
-            for (int i = 0; i < numIngredients; i++) //for loop interates the amount of times the user inputs the amount of ingredients,quantity
-            {
-                Console.WriteLine($"\nIngredient {i + 1}:");
-                Console.Write("Name: ");
-                ingredientNames[i] = Console.ReadLine();
-                Console.Write("Quantity: ");
-                ingredientQuantities[i] = double.Parse(Console.ReadLine());
-                Console.Write("Unit of Measurement: ");
-                ingredientUnits[i] = Console.ReadLine();
-            }
+                for (int i = 0; i < numIngredients; i++) //for loop interates the amount of times the user inputs the amount of ingredients,quantity
+                    {
+                        Console.WriteLine($"\nIngredient {i + 1}:");
+                        Console.Write("Name: ");
+                        ingredientNames[i] = Console.ReadLine();
+                        Console.Write("Quantity: ");
+                        ingredientQuantities[i] = double.Parse(Console.ReadLine());
+                        Console.Write("Unit of Measurement: ");
+                        ingredientUnits[i] = Console.ReadLine();
+                    }
 
             Console.Write("\nEnter the number of steps: "); //prompts user for nr of steps
             int nrSteps = int.Parse(Console.ReadLine());
 
             string[] steps = new string[nrSteps];
 
-            for (int i = 0; i < nrSteps; i++) //for loop iterates for amount of steps user inputs
-            {
+                for (int i = 0; i < nrSteps; i++) //for loop iterates for amount of steps user inputs
+             {
                 Console.WriteLine($"\nStep {i + 1}:");
                 Console.Write("Description: ");
                 steps[i] = Console.ReadLine();
-            }
+             }
 
             Console.WriteLine("\nRecipe Details:"); //next lines display the final details of the user inputs
             Console.WriteLine("\nIngredients:");
-            for (int i = 0; i < numIngredients; i++)
+
+                 for (int i = 0; i < numIngredients; i++)
             {
                 Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
             }
