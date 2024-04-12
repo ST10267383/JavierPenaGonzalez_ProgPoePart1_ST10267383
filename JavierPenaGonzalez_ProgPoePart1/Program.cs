@@ -11,12 +11,12 @@ namespace JavierPenaGonzalez_ProgPoePart1
             bool continueProgram = true;
             while (continueProgram)
             {
-                Console.WriteLine("You will now create your recipe");
+                Console.WriteLine("You will now create your recipe"); //input user info 
 
                 Console.Write("Enter the number of ingredients: ");
                 int numIngredients = int.Parse(Console.ReadLine());
-                //declare arrays
-                string[] ingredientNames = new string[numIngredients]; 
+                
+                string[] ingredientNames = new string[numIngredients]; //declare arrays
                 double[] ingredientQuantities = new double[numIngredients];
                 string[] ingredientUnits = new string[numIngredients];
 
@@ -36,7 +36,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
 
                 string[] steps = new string[nrSteps];
 
-                for (int i = 0; i < nrSteps; i++)
+                for (int i = 0; i < nrSteps; i++) //reiterates the descriptions from the arrays to the output depending on amount of descriptions the user input
                 {
                     Console.WriteLine($"\nStep {i + 1}:");
                     Console.Write("Description: ");
@@ -63,7 +63,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 while (continueScaling)
                 {
                     Console.Write("\nDo you want to scale the ingredient quantities? (y/n): ");
-                    string response = Console.ReadLine().ToLower();
+                    string response = Console.ReadLine().ToLower(); //changes string to lowercase (string manipulation) as to create a legible program if user input is in full caps
 
                     if (response == "y")
                     {
