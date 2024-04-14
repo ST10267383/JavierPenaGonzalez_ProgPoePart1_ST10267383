@@ -11,7 +11,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             bool continueProgram = true;
             while (continueProgram)
             {
-                Console.WriteLine("Welcome to the recipe app, we will now take in your recipe"); //input user info 
+                Console.WriteLine("Welcome to the recipe app, we will now take in your recipe"); //input user info
 
                 Console.Write("Enter the number of ingredients you would like to have in this recipe: "); //prompt user to enter ingredient number to used later within iterating loop
                 int numIngredients = int.Parse(Console.ReadLine());
@@ -38,16 +38,16 @@ namespace JavierPenaGonzalez_ProgPoePart1
 
                 for (int i = 0; i < nrSteps; i++) //reiterates the descriptions from the arrays to the output depending on amount of descriptions the user input
                 {
-                    Console.WriteLine($"\nStep {i + 1}:");
-                    Console.Write("Description: ");
-                    steps[i] = Console.ReadLine();
+                    Console.WriteLine($"\nStep {i + 1}:"); //indicates to user what step is being iterated
+                    Console.Write("Description: "); //indicates the user to input their description
+                    steps[i] = Console.ReadLine(); //reads user input for above lines
                 }
 
                 Console.WriteLine("\nRecipe Details:");
                 Console.WriteLine("\nIngredients:");
-                for (int i = 0; i < numIngredients; i++)
+                for (int i = 0; i < numIngredients; i++) //iterates depending on number of ingredients
                 {
-                    Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
+                    Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}"); //displays recipe details
                 }
 
                 Console.WriteLine("\nSteps:");
