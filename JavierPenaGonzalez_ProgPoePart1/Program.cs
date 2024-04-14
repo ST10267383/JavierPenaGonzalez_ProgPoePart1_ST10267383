@@ -11,9 +11,9 @@ namespace JavierPenaGonzalez_ProgPoePart1
             bool continueProgram = true;
             while (continueProgram)
             {
-                Console.WriteLine("You will now create your recipe"); //input user info 
+                Console.WriteLine("Welcome to the recipe app, we will now take in your recipe"); //input user info 
 
-                Console.Write("Enter the number of ingredients: ");
+                Console.Write("Enter the number of ingredients you would like to have in this recipe: "); //prompt user to enter ingredient number to used later within iterating loop
                 int numIngredients = int.Parse(Console.ReadLine());
                 
                 string[] ingredientNames = new string[numIngredients]; //declare arrays
@@ -22,16 +22,16 @@ namespace JavierPenaGonzalez_ProgPoePart1
 
                 for (int i = 0; i < numIngredients; i++) //for loop to iterate through user inputs
                 {
-                    Console.WriteLine($"\nIngredient {i + 1}:");
+                    Console.WriteLine($"\n Ingredient nr {i + 1}:"); //collects user input for ingredients
                     Console.Write("Name: ");
                     ingredientNames[i] = Console.ReadLine();
-                    Console.Write("Quantity: ");
+                    Console.Write("Quantity to be used: "); //collects quantity of ingredients
                     ingredientQuantities[i] = double.Parse(Console.ReadLine());
-                    Console.Write("Unit of Measurement: ");
+                    Console.Write("Unit of Measurement for ingredients: "); //collects the unit of measurement that the user requires for their ingredients
                     ingredientUnits[i] = Console.ReadLine();
                 }
 
-                Console.Write("\nEnter the number of steps: ");
+                Console.Write("\nEnter the number of steps: "); //prompts user to input their number of steps for their recipe
                 int nrSteps = int.Parse(Console.ReadLine());
 
                 string[] steps = new string[nrSteps];
