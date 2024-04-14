@@ -80,7 +80,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                     }
                     else
                     {
-                        Console.WriteLine("Invalid input. Please enter 'y' or 'n'.");
+                        Console.WriteLine("Invalid input. Please enter 'y' or 'n'."); //returns user to invalid input incase they didnt type y or n
                     }
                 }
 
