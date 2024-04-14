@@ -59,21 +59,21 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 // scalingFunction Functionality
                 scalingFunction scaling = new scalingFunction(ingredientQuantities);
 
-                bool continueScaling = true;
+                bool continueScaling = true; //bool to check whether the user has wanted to scale their recipe or not
                 while (continueScaling)
                 {
-                    Console.Write("\nDo you want to scale the ingredient quantities? (y/n): ");
+                    Console.Write("\nDo you want to scale the ingredient quantities? y- For yes, n - for No: ");
                     string response = Console.ReadLine().ToLower(); //changes string to lowercase (string manipulation) as to create a legible program if user input is in full caps
 
-                    if (response == "y")
+                    if (response == "y") //the function for if the user inputs yes 
                     {
-                        Console.Write("Enter the scale factor (0.5 for half, 2 for double, 3 for triple): ");
+                        Console.Write("Enter the scale factor (0.5 for half, 2 for double, 3 for triple): "); //prompts user to enter the scale factor they wish to use
                         double scaleFactor = double.Parse(Console.ReadLine());
                         scaling.ScaleIngredients(scaleFactor);
-                        Console.WriteLine("\nScaled Recipe Details:");
+                        Console.WriteLine("\nScaled Recipe Details:"); //gives user the recipe after the scale factor is applied
                         scaling.DisplayIngredients(ingredientNames, ingredientUnits);
                     }
-                    else if (response == "n")
+                    else if (response == "n") //runs an else if the user inputs no which moves the program along, away from the scaling
                     {
                         continueScaling = false;
                         Console.WriteLine("\nRecipe details remain unchanged.");
@@ -85,7 +85,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 }
 
                 // Revert scalingFunction Functionality
-                Console.Write("\nDo you want to revert any scaling done to the original values? (y/n): ");
+                Console.Write("\nDo you want to revert any scaling done to the original values? y- for Yes, n - for No: ");
                 string revertResponse = Console.ReadLine().ToLower();
                 if (revertResponse == "y")
                 {
@@ -99,12 +99,12 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 }
 
                 // Ask if the user wants to continue or exit
-                Console.Write("\nDo you want to clear the stored data and enter a new recipe? (y/n): ");
+                Console.Write("\nDo you want to clear the stored data and enter a new recipe? y- For yes, n - for No: ");
                 string continueResponse = Console.ReadLine().ToLower();
                 if (continueResponse != "y")
                 {
                     continueProgram = false;
-                    Console.WriteLine("\nThank you for using the recipe creation program. Goodbye!");
+                    Console.WriteLine("\nYour recipe has now been saved and compiled!");
                 }
             }
         }
