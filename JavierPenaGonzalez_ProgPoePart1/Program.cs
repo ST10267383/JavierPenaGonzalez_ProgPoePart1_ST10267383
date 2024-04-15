@@ -8,7 +8,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
     {
         static void Main(string[] args)
         {
-            bool continueProgram = true; //creates a bool which will execute later on based on whether the user decides to clear data and start again
+            bool continueProgram = true; //creates a bool which will execute later on based on whether the user decides to clear data and start again (Troelsen & Japikse, 2022)
             while (continueProgram)
             {
                 Console.WriteLine("Welcome to the recipe app, we will now take in your recipe"); //input user info
@@ -16,7 +16,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 Console.Write("Enter the number of ingredients you would like to have in this recipe: "); //prompt user to enter ingredient number to used later within iterating loop
                 int numIngredients = int.Parse(Console.ReadLine());
                 
-                string[] ingredients = new string[numIngredients]; //declare array for ingredients
+                string[] ingredients = new string[numIngredients]; //declare array for ingredients (Troelsen & Japikse, 2022)
 
                 double[] ingredientQuantity = new double[numIngredients]; 
 
@@ -24,7 +24,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
 
                             for (int i = 0; i < numIngredients; i++) //for loop to iterate through user inputs
                             {
-                                Console.WriteLine($"\n Ingredient nr {i + 1}:"); //collects user input for ingredients
+                                Console.WriteLine($"\n Ingredient nr {i + 1}:"); //collects user input for ingredients (Troelsen & Japikse, 2022)
                                 Console.Write("Name: ");
                                 ingredients[i] = Console.ReadLine();
                                 Console.Write("Quantity to be used: "); //collects quantity of ingredients
@@ -48,8 +48,8 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 Console.WriteLine("\nRecipe Details:");
                 Console.WriteLine("\nIngredients:");
 
-                            for (int i = 0; i < numIngredients; i++) //iterates depending on number of ingredients
-                            {
+                            for (int i = 0; i < numIngredients; i++) //iterates depending on number of ingredients (Troelsen & Japikse, 2022)
+                {
                                 Console.WriteLine($"{ingredientQuantity[i]} {ingredientUnits[i]} of {ingredients[i]}"); //displays recipe details
                             }
 
@@ -78,8 +78,8 @@ namespace JavierPenaGonzalez_ProgPoePart1
                                             Console.WriteLine("\nScaled Recipe Details:"); //gives user the recipe after the scale factor is applied
                                             scaling.DisplayIngredients(ingredients, ingredientUnits);
                                         }
-                                        else if (response == "n") //runs an else if the user inputs no which moves the program along, away from the scaling
-                                        {
+                                        else if (response == "n") //runs an else if the user inputs no which moves the program along, away from the scaling (Troelsen & Japikse, 2022)
+                    {
                                             continueScaling = false;
                                             Console.WriteLine("\nRecipe details remain unchanged.");
                                         }
@@ -89,13 +89,13 @@ namespace JavierPenaGonzalez_ProgPoePart1
                                         }
                                     }
 
-                // Revert scalingFunction Functionality
+                // Revert scalingFunction Functionality (S, 2010)
                 Console.Write("\nDo you want to revert any scaling done to the original values? y- for Yes, n - for No: ");
                 string revertResponse = Console.ReadLine().ToLower();
 
                                     if (revertResponse == "y")
                                     {
-                                        scaling.RevertScaling(); //calls revert scaling function
+                                        scaling.RevertScaling(); //calls revert scaling function (Troelsen & Japikse, 2022)
                                         Console.WriteLine("\nReverted to original quantities:");
                                         scaling.DisplayIngredients(ingredients, ingredientUnits); //displays scaling
                                     }
@@ -116,7 +116,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
         }
     }
 
-    class scalingFunction //class that will perform the scaling function
+    class scalingFunction //class that will perform the scaling function (S, 2010)
     {
         private double[] originalQuantities;
         private double[] scaledQuantities;
@@ -132,13 +132,13 @@ namespace JavierPenaGonzalez_ProgPoePart1
         {
             for (int i = 0; i < originalQuantities.Length; i++)
             {
-                scaledQuantities[i] = originalQuantities[i] * scaleFactor; //performs mathematical formula for scaling the values
+                scaledQuantities[i] = originalQuantities[i] * scaleFactor; //performs mathematical formula for scaling the values (S, 2010)
             }
         }
 
-        public void RevertScaling() //functionf or reverting the scaling to default
+        public void RevertScaling() //function for reverting the scaling to default
         {
-            Array.Copy(originalQuantities, scaledQuantities, originalQuantities.Length); //once again takes the array copy
+            Array.Copy(originalQuantities, scaledQuantities, originalQuantities.Length); //once again takes the array copy (Troelsen & Japikse, 2022)
         }
 
         public void DisplayIngredients(string[] ingredientNames, string[] ingredientUnits) //code to finally display the final ingredients in the recipe as a final screen for the user.
@@ -150,3 +150,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
         }
     }
 }
+//Pro C# 10 with .NET 6, Troelsen, Andrew; Japikse, phil. 11th edition,Chambersburg,PA. 2022, apress
+//S, J., 2010. Stackoverflow. [Online] 
+//Available at: https://stackoverflow.com/questions/2675196/c-sharp-method-to-scale-values
+//[Accessed 11 April 2024].
