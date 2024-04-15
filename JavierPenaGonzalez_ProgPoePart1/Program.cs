@@ -8,7 +8,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
     {
         static void Main(string[] args)
         {
-            bool continueProgram = true;
+            bool continueProgram = true; //creates a bool which will execute later on based on whether the user decides to clear data and start again
             while (continueProgram)
             {
                 Console.WriteLine("Welcome to the recipe app, we will now take in your recipe"); //input user info
@@ -16,17 +16,19 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 Console.Write("Enter the number of ingredients you would like to have in this recipe: "); //prompt user to enter ingredient number to used later within iterating loop
                 int numIngredients = int.Parse(Console.ReadLine());
                 
-                string[] ingredientNames = new string[numIngredients]; //declare arrays
-                double[] ingredientQuantities = new double[numIngredients];
+                string[] ingredients = new string[numIngredients]; //declare array for ingredients
+
+                double[] ingredientQuantity = new double[numIngredients]; 
+
                 string[] ingredientUnits = new string[numIngredients];
 
                             for (int i = 0; i < numIngredients; i++) //for loop to iterate through user inputs
                             {
                                 Console.WriteLine($"\n Ingredient nr {i + 1}:"); //collects user input for ingredients
                                 Console.Write("Name: ");
-                                ingredientNames[i] = Console.ReadLine();
+                                ingredients[i] = Console.ReadLine();
                                 Console.Write("Quantity to be used: "); //collects quantity of ingredients
-                                ingredientQuantities[i] = double.Parse(Console.ReadLine());
+                                ingredientQuantity[i] = double.Parse(Console.ReadLine());
                                 Console.Write("Unit of Measurement for ingredients: "); //collects the unit of measurement that the user requires for their ingredients
                                 ingredientUnits[i] = Console.ReadLine();
                             }
@@ -48,7 +50,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
 
                             for (int i = 0; i < numIngredients; i++) //iterates depending on number of ingredients
                             {
-                                Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}"); //displays recipe details
+                                Console.WriteLine($"{ingredientQuantity[i]} {ingredientUnits[i]} of {ingredients[i]}"); //displays recipe details
                             }
 
                 Console.WriteLine("\nSteps:");
@@ -59,7 +61,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                             }
 
                 // scalingFunction Functionality
-                scalingFunction scaling = new scalingFunction(ingredientQuantities);
+                scalingFunction scaling = new scalingFunction(ingredientQuantity);
 
                 bool continueScaling = true; //bool to check whether the user has wanted to scale their recipe or not
 
@@ -74,7 +76,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                                             double scaleFactor = double.Parse(Console.ReadLine());
                                             scaling.ScaleIngredients(scaleFactor);
                                             Console.WriteLine("\nScaled Recipe Details:"); //gives user the recipe after the scale factor is applied
-                                            scaling.DisplayIngredients(ingredientNames, ingredientUnits);
+                                            scaling.DisplayIngredients(ingredients, ingredientUnits);
                                         }
                                         else if (response == "n") //runs an else if the user inputs no which moves the program along, away from the scaling
                                         {
@@ -95,7 +97,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                                     {
                                         scaling.RevertScaling(); //calls revert scaling function
                                         Console.WriteLine("\nReverted to original quantities:");
-                                        scaling.DisplayIngredients(ingredientNames, ingredientUnits); //displays scaling
+                                        scaling.DisplayIngredients(ingredients, ingredientUnits); //displays scaling
                                     }
                                     else
                                     {
@@ -107,7 +109,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 string continueResponse = Console.ReadLine().ToLower();
                 if (continueResponse != "y")
                 {
-                    continueProgram = false;
+                    continueProgram = false; //if the program no longer has a need to continue it will let the user know the recipe was saved into memory
                     Console.WriteLine("\nYour recipe has now been saved and compiled!");
                 }
             }
