@@ -74,13 +74,20 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 }
             }
 
-            // Display recipes in alphabetical order
-            recipes.Sort();
-            Console.WriteLine("\nRecipes in alphabetical order:");
+            // Display recipes in different colors
+            Console.WriteLine("\nRecipes in different colors:");
+            ConsoleColor[] colors = { ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Yellow, ConsoleColor.Magenta };
+
+            int colorIndex = 0;
             foreach (Recipe recipe in recipes)
             {
+                Console.ForegroundColor = colors[colorIndex % colors.Length];
                 recipe.DisplayRecipe();
+                colorIndex++;
             }
+
+            // Reset console color
+            Console.ResetColor();
         }
     }
 
