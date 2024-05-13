@@ -25,6 +25,8 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 ArrayList ingredients = new ArrayList();
                 ArrayList ingredientQuantity = new ArrayList();
                 ArrayList ingredientUnits = new ArrayList();
+                ArrayList ingredientCalories = new ArrayList();
+                ArrayList ingredientFoodGroup = new ArrayList();
 
                 for (int i = 0; i < numIngredients; i++)
                 {
@@ -35,6 +37,20 @@ namespace JavierPenaGonzalez_ProgPoePart1
                     ingredientQuantity.Add(double.Parse(Console.ReadLine()));
                     Console.Write("Unit of Measurement for ingredients: ");
                     ingredientUnits.Add(Console.ReadLine());
+                    Console.Write("Enter the number of calories: ");
+                    ingredientCalories.Add(int.Parse(Console.ReadLine()));
+
+                    Console.WriteLine("Choose a food group for the ingredient:");
+                    Console.WriteLine("1. Starchy foods");
+                    Console.WriteLine("2. Vegetables and fruits");
+                    Console.WriteLine("3. Dry beans, peas, lentils, and soya");
+                    Console.WriteLine("4. Chicken, fish, meat, and eggs");
+                    Console.WriteLine("5. Milk and dairy products");
+                    Console.WriteLine("6. Fats and oil");
+                    Console.WriteLine("7. Water");
+                    Console.Write("Enter your choice (1-7): ");
+                    int foodGroupChoice = int.Parse(Console.ReadLine());
+                    ingredientFoodGroup.Add(foodGroupChoice);
                 }
 
                 Console.Write("\nEnter the number of steps: ");
@@ -50,7 +66,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 }
 
                 // Create and add recipe object to recipes ArrayList
-                Recipe newRecipe = new Recipe(recipeName, ingredients, ingredientQuantity, ingredientUnits, steps);
+                Recipe newRecipe = new Recipe(recipeName, ingredients, ingredientQuantity, ingredientUnits, ingredientCalories, ingredientFoodGroup, steps);
                 recipes.Add(newRecipe);
 
                 Console.Write("\nDo you want to scale the ingredient quantities? y- For yes, n - for No: ");
@@ -90,83 +106,111 @@ namespace JavierPenaGonzalez_ProgPoePart1
             Console.ResetColor();
         }
     }
+}
 
-    class Recipe : IComparable
+class Recipe : IComparable
+{
+    private string recipeName;
+    private ArrayList ingredientNames;
+    private ArrayList ingredientQuantities;
+    private ArrayList ingredientUnits;
+    private ArrayList ingredientCalories;
+    private ArrayList ingredientFoodGroup;
+    private ArrayList steps;
+
+    public Recipe(string recipeName, ArrayList ingredientNames, ArrayList ingredientQuantities, ArrayList ingredientUnits, ArrayList ingredientCalories, ArrayList ingredientFoodGroup, ArrayList steps)
     {
-        private string recipeName;
-        private ArrayList ingredientNames;
-        private ArrayList ingredientQuantities;
-        private ArrayList ingredientUnits;
-        private ArrayList steps;
+        this.recipeName = recipeName;
+        this.ingredientNames = ingredientNames;
+        this.ingredientQuantities = ingredientQuantities;
+        this.ingredientUnits = ingredientUnits;
+        this.ingredientCalories = ingredientCalories;
+        this.ingredientFoodGroup = ingredientFoodGroup;
+        this.steps = steps;
+    }
 
-        public Recipe(string recipeName, ArrayList ingredientNames, ArrayList ingredientQuantities, ArrayList ingredientUnits, ArrayList steps)
+    public void DisplayRecipe()
+    {
+        Console.WriteLine($"\nRecipe Name: {recipeName}");
+        Console.WriteLine("\nIngredients:");
+        for (int i = 0; i < ingredientNames.Count; i++)
         {
-            this.recipeName = recipeName;
-            this.ingredientNames = ingredientNames;
-            this.ingredientQuantities = ingredientQuantities;
-            this.ingredientUnits = ingredientUnits;
-            this.steps = steps;
+            Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
+            Console.WriteLine($"- Calories: {ingredientCalories[i]}");
+            Console.WriteLine($"- Food Group: {GetFoodGroupName((int)ingredientFoodGroup[i])}");
         }
 
-        public void DisplayRecipe()
+        Console.WriteLine("\nSteps:");
+        for (int i = 0; i < steps.Count; i++)
         {
-            Console.WriteLine($"\nRecipe Name: {recipeName}");
-            Console.WriteLine("\nIngredients:");
-            for (int i = 0; i < ingredientNames.Count; i++)
-            {
-                Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
-            }
-
-            Console.WriteLine("\nSteps:");
-            for (int i = 0; i < steps.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {steps[i]}");
-            }
+            Console.WriteLine($"{i + 1}. {steps[i]}");
         }
-
-        public int CompareTo(object obj)
+    }
+    private string GetFoodGroupName(int groupNumber)
+    {
+        switch (groupNumber)
         {
-            Recipe otherRecipe = obj as Recipe;
-            return this.recipeName.CompareTo(otherRecipe.recipeName);
+            case 1:
+                return "Starchy foods";
+            case 2:
+                return "Vegetables and fruits";
+            case 3:
+                return "Dry beans, peas, lentils, and soya";
+            case 4:
+                return "Chicken, fish, meat, and eggs";
+            case 5:
+                return "Milk and dairy products";
+            case 6:
+                return "Fats and oil";
+            case 7:
+                return "Water";
+            default:
+                return "Unknown";
+        }
+    }
+    public int CompareTo(object obj)
+    {
+        Recipe otherRecipe = obj as Recipe;
+        return this.recipeName.CompareTo(otherRecipe.recipeName);
+    }
+}
+
+class scalingFunction //class that will perform the scaling function
+{
+    private ArrayList originalQuantities;
+    private ArrayList scaledQuantities;
+
+    public scalingFunction(ArrayList originalQuantities)
+    {
+        this.originalQuantities = originalQuantities;
+        this.scaledQuantities = new ArrayList();
+        this.scaledQuantities.AddRange(originalQuantities); //creates a copy of the array of stored ingredients
+    }
+
+    public void ScaleIngredients(double scaleFactor)
+    {
+        for (int i = 0; i < originalQuantities.Count; i++)
+        {
+            double quantity = (double)originalQuantities[i];
+            scaledQuantities[i] = quantity * scaleFactor;
         }
     }
 
-    class scalingFunction //class that will perform the scaling function
+    public void RevertScaling()
     {
-        private ArrayList originalQuantities;
-        private ArrayList scaledQuantities;
+        scaledQuantities.Clear();
+        scaledQuantities.AddRange(originalQuantities); //takes the array copy
+    }
 
-        public scalingFunction(ArrayList originalQuantities)
+    public void DisplayIngredients(ArrayList ingredientNames, ArrayList ingredientUnits)
+    {
+        for (int i = 0; i < scaledQuantities.Count; i++)
         {
-            this.originalQuantities = originalQuantities;
-            this.scaledQuantities = new ArrayList();
-            this.scaledQuantities.AddRange(originalQuantities); //creates a copy of the array of stored ingredients
-        }
-
-        public void ScaleIngredients(double scaleFactor)
-        {
-            for (int i = 0; i < originalQuantities.Count; i++)
-            {
-                double quantity = (double)originalQuantities[i];
-                scaledQuantities[i] = quantity * scaleFactor;
-            }
-        }
-
-        public void RevertScaling()
-        {
-            scaledQuantities.Clear();
-            scaledQuantities.AddRange(originalQuantities); //takes the array copy
-        }
-
-        public void DisplayIngredients(ArrayList ingredientNames, ArrayList ingredientUnits)
-        {
-            for (int i = 0; i < scaledQuantities.Count; i++)
-            {
-                Console.WriteLine($"{scaledQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
-            }
+            Console.WriteLine($"{scaledQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
         }
     }
 }
+
 //Pro C# 10 with .NET 6, Troelsen, Andrew; Japikse, phil. 11th edition,Chambersburg,PA. 2022, apress
 //S, J., 2010. Stackoverflow. [Online] 
 //Available at: https://stackoverflow.com/questions/2675196/c-sharp-method-to-scale-values
