@@ -5,14 +5,14 @@ using System.Collections.Generic;
 //namescape for what we are going to use in every class
 namespace JavierPenaGonzalez_ProgPoePart1
 {
-    // Define a delegate type
+    // Define delegate type
     public delegate void CaloriesAlert(string recipeName, int totalCalories);
 
     class Program
     {
         static void Main(string[] args)
         {
-            ArrayList recipes = new ArrayList(); // ArrayList to store recipes
+            List<Recipe> recipes = new List<Recipe>(); // List to store recipes
 
             Recipe.CaloriesExceeded += HandleCaloriesExceeded;
 
@@ -27,11 +27,11 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 Console.Write("Enter the number of ingredients you would like to have in this recipe: ");
                 int numIngredients = int.Parse(Console.ReadLine());
 
-                ArrayList ingredients = new ArrayList();
-                ArrayList ingredientQuantity = new ArrayList();
-                ArrayList ingredientUnits = new ArrayList();
-                ArrayList ingredientCalories = new ArrayList();
-                ArrayList ingredientFoodGroup = new ArrayList();
+                List<string> ingredients = new List<string>();
+                List<double> ingredientQuantity = new List<double>();
+                List<string> ingredientUnits = new List<string>();
+                List<int> ingredientCalories = new List<int>();
+                List<int> ingredientFoodGroup = new List<int>();
 
                 for (int i = 0; i < numIngredients; i++)
                 {
@@ -61,7 +61,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 Console.Write("\nEnter the number of steps: ");
                 int nrSteps = int.Parse(Console.ReadLine());
 
-                ArrayList steps = new ArrayList();
+                List<string> steps = new List<string>();
 
                 for (int i = 0; i < nrSteps; i++)
                 {
@@ -70,7 +70,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                     steps.Add(Console.ReadLine());
                 }
 
-                // Create and add recipe object to recipes ArrayList
+                // Create and add recipe object to recipes List
                 Recipe newRecipe = new Recipe(recipeName, ingredients, ingredientQuantity, ingredientUnits, ingredientCalories, ingredientFoodGroup, steps);
                 recipes.Add(newRecipe);
 
@@ -78,7 +78,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                 string scaleResponse = Console.ReadLine().ToLower();
                 if (scaleResponse == "y")
                 {
-                    scalingFunction scaling = new scalingFunction(ingredientQuantity);
+                    ScalingFunction scaling = new ScalingFunction(ingredientQuantity);
                     Console.Write("Enter the scale factor (0.5 for half, 2 for double, 3 for triple): ");
                     double scaleFactor = double.Parse(Console.ReadLine());
                     scaling.ScaleIngredients(scaleFactor);
@@ -111,6 +111,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             // Reset console color
             Console.ResetColor();
         }
+
         static void HandleCaloriesExceeded(string recipeName, int totalCalories)
         {
             Console.WriteLine($"Warning: The recipe '{recipeName}' exceeds 300 calories with a total of {totalCalories} calories.");
@@ -120,17 +121,17 @@ namespace JavierPenaGonzalez_ProgPoePart1
     class Recipe : IComparable
     {
         private string recipeName;
-        private ArrayList ingredientNames;
-        private ArrayList ingredientQuantities;
-        private ArrayList ingredientUnits;
-        private ArrayList ingredientCalories;
-        private ArrayList ingredientFoodGroup;
-        private ArrayList steps;
+        private List<string> ingredientNames;
+        private List<double> ingredientQuantities;
+        private List<string> ingredientUnits;
+        private List<int> ingredientCalories;
+        private List<int> ingredientFoodGroup;
+        private List<string> steps;
 
         // Delegate instance for alerting the user
         public static event CaloriesAlert CaloriesExceeded;
 
-        public Recipe(string recipeName, ArrayList ingredientNames, ArrayList ingredientQuantities, ArrayList ingredientUnits, ArrayList ingredientCalories, ArrayList ingredientFoodGroup, ArrayList steps)
+        public Recipe(string recipeName, List<string> ingredientNames, List<double> ingredientQuantities, List<string> ingredientUnits, List<int> ingredientCalories, List<int> ingredientFoodGroup, List<string> steps)
         {
             this.recipeName = recipeName;
             this.ingredientNames = ingredientNames;
@@ -149,7 +150,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             {
                 Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
                 Console.WriteLine($"- Calories: {ingredientCalories[i]}");
-                Console.WriteLine($"- Food Group: {GetFoodGroupName((int)ingredientFoodGroup[i])}");
+                Console.WriteLine($"- Food Group: {GetFoodGroupName(ingredientFoodGroup[i])}");
             }
 
             Console.WriteLine("\nSteps:");
@@ -164,7 +165,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             int totalCalories = 0;
             for (int i = 0; i < ingredientCalories.Count; i++)
             {
-                totalCalories += (int)ingredientCalories[i];
+                totalCalories += ingredientCalories[i];
             }
             Console.WriteLine($"\nTotal Calories: {totalCalories}");
 
@@ -202,41 +203,6 @@ namespace JavierPenaGonzalez_ProgPoePart1
         {
             Recipe otherRecipe = obj as Recipe;
             return this.recipeName.CompareTo(otherRecipe.recipeName);
-        }
-    }
-
-    class scalingFunction //class that will perform the scaling function
-    {
-        private ArrayList originalQuantities;
-        private ArrayList scaledQuantities;
-
-        public scalingFunction(ArrayList originalQuantities)
-        {
-            this.originalQuantities = originalQuantities;
-            this.scaledQuantities = new ArrayList();
-            this.scaledQuantities.AddRange(originalQuantities); //creates a copy of the array of stored ingredients
-        }
-
-        public void ScaleIngredients(double scaleFactor)
-        {
-            for (int i = 0; i < originalQuantities.Count; i++)
-            {
-                double quantity = (double)originalQuantities[i];
-                scaledQuantities[i] = quantity * scaleFactor;
-            }
-        }
-        public void RevertScaling()
-        {
-            scaledQuantities.Clear();
-            scaledQuantities.AddRange(originalQuantities); //takes the array copy
-        }
-
-        public void DisplayIngredients(ArrayList ingredientNames, ArrayList ingredientUnits)
-        {
-            for (int i = 0; i < scaledQuantities.Count; i++)
-            {
-                Console.WriteLine($"{scaledQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
-            }
         }
     }
 }

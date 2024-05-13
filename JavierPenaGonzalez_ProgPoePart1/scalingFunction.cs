@@ -9,41 +9,35 @@ namespace JavierPenaGonzalez_ProgPoePart1
 {
     class ScalingFunction
     {
-        private ArrayList ingredientNames;
-        private ArrayList ingredientQuantities;
-        private ArrayList ingredientUnits;
-        private ArrayList steps;
+        private List<double> originalQuantities;
+        private List<double> scaledQuantities;
 
-        public ScalingFunction(ArrayList ingredientNames, ArrayList ingredientQuantities, ArrayList ingredientUnits, ArrayList steps)
+        public ScalingFunction(List<double> originalQuantities)
         {
-            this.ingredientNames = ingredientNames;
-            this.ingredientQuantities = ingredientQuantities;
-            this.ingredientUnits = ingredientUnits;
-            this.steps = steps;
+            this.originalQuantities = originalQuantities;
+            this.scaledQuantities = new List<double>(originalQuantities); //creates a copy of the list of stored ingredients
         }
 
         public void ScaleIngredients(double scaleFactor)
         {
-            for (int i = 0; i < ingredientQuantities.Count; i++)
+            for (int i = 0; i < originalQuantities.Count; i++)
             {
-                double quantity = (double)ingredientQuantities[i]; // Cast to double
-                ingredientQuantities[i] = quantity * scaleFactor;
+                double quantity = originalQuantities[i];
+                scaledQuantities[i] = quantity * scaleFactor;
             }
         }
 
-        public void DisplayIngredients()
+        public void RevertScaling()
         {
-            Console.WriteLine("\nRecipe Details:");
-            Console.WriteLine("\nIngredients:");
-            for (int i = 0; i < ingredientNames.Count; i++)
-            {
-                Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
-            }
+            scaledQuantities.Clear();
+            scaledQuantities.AddRange(originalQuantities); //takes the list copy
+        }
 
-            Console.WriteLine("\nSteps:");
-            for (int i = 0; i < steps.Count; i++)
+        public void DisplayIngredients(List<string> ingredientNames, List<string> ingredientUnits)
+        {
+            for (int i = 0; i < scaledQuantities.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {steps[i]}");
+                Console.WriteLine($"{scaledQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
             }
         }
     }
