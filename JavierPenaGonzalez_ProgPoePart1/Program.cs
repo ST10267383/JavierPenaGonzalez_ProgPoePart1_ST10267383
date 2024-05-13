@@ -99,6 +99,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             {
                 Console.ForegroundColor = colors[colorIndex % colors.Length];
                 recipe.DisplayRecipe();
+                recipe.DisplayTotalCalories();
                 colorIndex++;
             }
 
@@ -146,6 +147,17 @@ class Recipe : IComparable
             Console.WriteLine($"{i + 1}. {steps[i]}");
         }
     }
+
+    public void DisplayTotalCalories()
+    {
+        int totalCalories = 0;
+        for (int i = 0; i < ingredientCalories.Count; i++)
+        {
+            totalCalories += (int)ingredientCalories[i];
+        }
+        Console.WriteLine($"\nTotal Calories: {totalCalories}");
+    }
+
     private string GetFoodGroupName(int groupNumber)
     {
         switch (groupNumber)
