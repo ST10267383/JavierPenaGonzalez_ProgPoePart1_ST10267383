@@ -5,11 +5,16 @@ using System.Collections.Generic;
 //namescape for what we are going to use in every class
 namespace JavierPenaGonzalez_ProgPoePart1
 {
+    // Define a delegate type
+    public delegate void CaloriesAlert(string recipeName, int totalCalories);
+
     class Program
     {
         static void Main(string[] args)
         {
             ArrayList recipes = new ArrayList(); // ArrayList to store recipes
+
+            Recipe.CaloriesExceeded += HandleCaloriesExceeded;
 
             bool continueProgram = true;
             while (continueProgram)
@@ -106,119 +111,132 @@ namespace JavierPenaGonzalez_ProgPoePart1
             // Reset console color
             Console.ResetColor();
         }
-    }
-}
-
-class Recipe : IComparable
-{
-    private string recipeName;
-    private ArrayList ingredientNames;
-    private ArrayList ingredientQuantities;
-    private ArrayList ingredientUnits;
-    private ArrayList ingredientCalories;
-    private ArrayList ingredientFoodGroup;
-    private ArrayList steps;
-
-    public Recipe(string recipeName, ArrayList ingredientNames, ArrayList ingredientQuantities, ArrayList ingredientUnits, ArrayList ingredientCalories, ArrayList ingredientFoodGroup, ArrayList steps)
-    {
-        this.recipeName = recipeName;
-        this.ingredientNames = ingredientNames;
-        this.ingredientQuantities = ingredientQuantities;
-        this.ingredientUnits = ingredientUnits;
-        this.ingredientCalories = ingredientCalories;
-        this.ingredientFoodGroup = ingredientFoodGroup;
-        this.steps = steps;
-    }
-
-    public void DisplayRecipe()
-    {
-        Console.WriteLine($"\nRecipe Name: {recipeName}");
-        Console.WriteLine("\nIngredients:");
-        for (int i = 0; i < ingredientNames.Count; i++)
+        static void HandleCaloriesExceeded(string recipeName, int totalCalories)
         {
-            Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
-            Console.WriteLine($"- Calories: {ingredientCalories[i]}");
-            Console.WriteLine($"- Food Group: {GetFoodGroupName((int)ingredientFoodGroup[i])}");
-        }
-
-        Console.WriteLine("\nSteps:");
-        for (int i = 0; i < steps.Count; i++)
-        {
-            Console.WriteLine($"{i + 1}. {steps[i]}");
+            Console.WriteLine($"Warning: The recipe '{recipeName}' exceeds 300 calories with a total of {totalCalories} calories.");
         }
     }
 
-    public void DisplayTotalCalories()
+    class Recipe : IComparable
     {
-        int totalCalories = 0;
-        for (int i = 0; i < ingredientCalories.Count; i++)
+        private string recipeName;
+        private ArrayList ingredientNames;
+        private ArrayList ingredientQuantities;
+        private ArrayList ingredientUnits;
+        private ArrayList ingredientCalories;
+        private ArrayList ingredientFoodGroup;
+        private ArrayList steps;
+
+        // Delegate instance for alerting the user
+        public static event CaloriesAlert CaloriesExceeded;
+
+        public Recipe(string recipeName, ArrayList ingredientNames, ArrayList ingredientQuantities, ArrayList ingredientUnits, ArrayList ingredientCalories, ArrayList ingredientFoodGroup, ArrayList steps)
         {
-            totalCalories += (int)ingredientCalories[i];
+            this.recipeName = recipeName;
+            this.ingredientNames = ingredientNames;
+            this.ingredientQuantities = ingredientQuantities;
+            this.ingredientUnits = ingredientUnits;
+            this.ingredientCalories = ingredientCalories;
+            this.ingredientFoodGroup = ingredientFoodGroup;
+            this.steps = steps;
         }
-        Console.WriteLine($"\nTotal Calories: {totalCalories}");
-    }
 
-    private string GetFoodGroupName(int groupNumber)
-    {
-        switch (groupNumber)
+        public void DisplayRecipe()
         {
-            case 1:
-                return "Starchy foods";
-            case 2:
-                return "Vegetables and fruits";
-            case 3:
-                return "Dry beans, peas, lentils, and soya";
-            case 4:
-                return "Chicken, fish, meat, and eggs";
-            case 5:
-                return "Milk and dairy products";
-            case 6:
-                return "Fats and oil";
-            case 7:
-                return "Water";
-            default:
-                return "Unknown";
+            Console.WriteLine($"\nRecipe Name: {recipeName}");
+            Console.WriteLine("\nIngredients:");
+            for (int i = 0; i < ingredientNames.Count; i++)
+            {
+                Console.WriteLine($"{ingredientQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
+                Console.WriteLine($"- Calories: {ingredientCalories[i]}");
+                Console.WriteLine($"- Food Group: {GetFoodGroupName((int)ingredientFoodGroup[i])}");
+            }
+
+            Console.WriteLine("\nSteps:");
+            for (int i = 0; i < steps.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {steps[i]}");
+            }
+        }
+
+        public void DisplayTotalCalories()
+        {
+            int totalCalories = 0;
+            for (int i = 0; i < ingredientCalories.Count; i++)
+            {
+                totalCalories += (int)ingredientCalories[i];
+            }
+            Console.WriteLine($"\nTotal Calories: {totalCalories}");
+
+            // Check if total calories exceed 300 and raise event if so
+            if (totalCalories > 300)
+            {
+                CaloriesExceeded?.Invoke(recipeName, totalCalories);
+            }
+        }
+
+        private string GetFoodGroupName(int groupNumber)
+        {
+            switch (groupNumber)
+            {
+                case 1:
+                    return "Starchy foods";
+                case 2:
+                    return "Vegetables and fruits";
+                case 3:
+                    return "Dry beans, peas, lentils, and soya";
+                case 4:
+                    return "Chicken, fish, meat, and eggs";
+                case 5:
+                    return "Milk and dairy products";
+                case 6:
+                    return "Fats and oil";
+                case 7:
+                    return "Water";
+                default:
+                    return "Unknown";
+            }
+        }
+
+        public int CompareTo(object obj)
+        {
+            Recipe otherRecipe = obj as Recipe;
+            return this.recipeName.CompareTo(otherRecipe.recipeName);
         }
     }
-    public int CompareTo(object obj)
-    {
-        Recipe otherRecipe = obj as Recipe;
-        return this.recipeName.CompareTo(otherRecipe.recipeName);
-    }
-}
 
-class scalingFunction //class that will perform the scaling function
-{
-    private ArrayList originalQuantities;
-    private ArrayList scaledQuantities;
-
-    public scalingFunction(ArrayList originalQuantities)
+    class scalingFunction //class that will perform the scaling function
     {
-        this.originalQuantities = originalQuantities;
-        this.scaledQuantities = new ArrayList();
-        this.scaledQuantities.AddRange(originalQuantities); //creates a copy of the array of stored ingredients
-    }
+        private ArrayList originalQuantities;
+        private ArrayList scaledQuantities;
 
-    public void ScaleIngredients(double scaleFactor)
-    {
-        for (int i = 0; i < originalQuantities.Count; i++)
+        public scalingFunction(ArrayList originalQuantities)
         {
-            double quantity = (double)originalQuantities[i];
-            scaledQuantities[i] = quantity * scaleFactor;
+            this.originalQuantities = originalQuantities;
+            this.scaledQuantities = new ArrayList();
+            this.scaledQuantities.AddRange(originalQuantities); //creates a copy of the array of stored ingredients
         }
-    }
 
-    public void RevertScaling()
-    {
-        scaledQuantities.Clear();
-        scaledQuantities.AddRange(originalQuantities); //takes the array copy
-    }
-
-    public void DisplayIngredients(ArrayList ingredientNames, ArrayList ingredientUnits)
-    {
-        for (int i = 0; i < scaledQuantities.Count; i++)
+        public void ScaleIngredients(double scaleFactor)
         {
-            Console.WriteLine($"{scaledQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
+            for (int i = 0; i < originalQuantities.Count; i++)
+            {
+                double quantity = (double)originalQuantities[i];
+                scaledQuantities[i] = quantity * scaleFactor;
+            }
+        }
+        public void RevertScaling()
+        {
+            scaledQuantities.Clear();
+            scaledQuantities.AddRange(originalQuantities); //takes the array copy
+        }
+
+        public void DisplayIngredients(ArrayList ingredientNames, ArrayList ingredientUnits)
+        {
+            for (int i = 0; i < scaledQuantities.Count; i++)
+            {
+                Console.WriteLine($"{scaledQuantities[i]} {ingredientUnits[i]} of {ingredientNames[i]}");
+            }
         }
     }
 }
