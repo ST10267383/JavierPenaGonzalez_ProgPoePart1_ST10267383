@@ -8,34 +8,34 @@ namespace JavierPenaGonzalez_ProgPoePart1
     // Define delegate type
     public delegate void CaloriesAlert(string recipeName, int totalCalories);
 
-    class Program
+    class Program 
     {
         static void Main(string[] args)
         {
             List<Recipe> recipes = new List<Recipe>(); // List to store recipes
 
-            Recipe.CaloriesExceeded += HandleCaloriesExceeded;
+            Recipe.CaloriesExceeded += HandleCaloriesExceeded; //(HitSubscribe, 2024)
 
-            bool continueProgram = true;
-            while (continueProgram)
+            bool continueProgram = true; //while the program keeps iterating
+            while (continueProgram) 
             {
                 Console.WriteLine("Welcome to the recipe app, we will now take in your recipe");
 
                 Console.Write("Enter recipe name: ");
-                string recipeName = Console.ReadLine();
+                string recipeName = Console.ReadLine(); //takes in user input for recipe name
 
                 Console.Write("Enter the number of ingredients you would like to have in this recipe: ");
-                int numIngredients = int.Parse(Console.ReadLine());
+                int numIngredients = int.Parse(Console.ReadLine()); //changes to int 
 
-                List<string> ingredients = new List<string>();
-                List<double> ingredientQuantity = new List<double>();
-                List<string> ingredientUnits = new List<string>();
-                List<int> ingredientCalories = new List<int>();
-                List<int> ingredientFoodGroup = new List<int>();
+                List<string> ingredients = new List<string>(); //List for ingredients
+                List<double> ingredientQuantity = new List<double>(); //List for ingredients
+                List<string> ingredientUnits = new List<string>(); //List for ingredients
+                List<int> ingredientCalories = new List<int>(); //List for ingredients
+                List<int> ingredientFoodGroup = new List<int>(); //List for ingredients
 
-                for (int i = 0; i < numIngredients; i++)
+                for (int i = 0; i < numIngredients; i++) //loop to iterate as many times as the user wants to enter recipes
                 {
-                    Console.WriteLine($"\n Ingredient nr {i + 1}:");
+                    Console.WriteLine($"\n Ingredient nr {i + 1}:"); //takes in user input 
                     Console.Write("Name: ");
                     ingredients.Add(Console.ReadLine());
                     Console.Write("Quantity to be used: ");
@@ -45,7 +45,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                     Console.Write("Enter the number of calories: ");
                     ingredientCalories.Add(int.Parse(Console.ReadLine()));
 
-                    Console.WriteLine("Choose a food group for the ingredient:");
+                    Console.WriteLine("Choose a food group for the ingredient:"); //displays options for the food group which will later be used in the case statements
                     Console.WriteLine("1. Starchy foods");
                     Console.WriteLine("2. Vegetables and fruits");
                     Console.WriteLine("3. Dry beans, peas, lentils, and soya");
@@ -54,14 +54,14 @@ namespace JavierPenaGonzalez_ProgPoePart1
                     Console.WriteLine("6. Fats and oil");
                     Console.WriteLine("7. Water");
                     Console.Write("Enter your choice (1-7): ");
-                    int foodGroupChoice = int.Parse(Console.ReadLine());
+                    int foodGroupChoice = int.Parse(Console.ReadLine()); //takes in food group choice.
                     ingredientFoodGroup.Add(foodGroupChoice);
                 }
 
                 Console.Write("\nEnter the number of steps: ");
                 int nrSteps = int.Parse(Console.ReadLine());
 
-                List<string> steps = new List<string>();
+                List<string> steps = new List<string>(); //populates list with the steps of the recipe
 
                 for (int i = 0; i < nrSteps; i++)
                 {
@@ -72,13 +72,13 @@ namespace JavierPenaGonzalez_ProgPoePart1
 
                 // Create and add recipe object to recipes List
                 Recipe newRecipe = new Recipe(recipeName, ingredients, ingredientQuantity, ingredientUnits, ingredientCalories, ingredientFoodGroup, steps);
-                recipes.Add(newRecipe);
+                recipes.Add(newRecipe); 
 
-                Console.Write("\nDo you want to scale the ingredient quantities? y- For yes, n - for No: ");
+                Console.Write("\nDo you want to scale the ingredient quantities? y- For yes, n - for No: "); //prompts user for scaling 
                 string scaleResponse = Console.ReadLine().ToLower();
                 if (scaleResponse == "y")
                 {
-                    ScalingFunction scaling = new ScalingFunction(ingredientQuantity);
+                    ScalingFunction scaling = new ScalingFunction(ingredientQuantity); //prompts user for scaling options aswell as sending to scaling function method
                     Console.Write("Enter the scale factor (0.5 for half, 2 for double, 3 for triple): ");
                     double scaleFactor = double.Parse(Console.ReadLine());
                     scaling.ScaleIngredients(scaleFactor);
@@ -86,7 +86,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
                     scaling.DisplayIngredients(ingredients, ingredientUnits);
                 }
 
-                Console.Write("\nDo you want to clear the stored data and enter a new recipe? y- For yes, n - for No: ");
+                Console.Write("\nDo you want to enter a new recipe? y- For yes, n - for No: "); //asks user if they want to restart the recipe process or not 
                 string continueResponse = Console.ReadLine().ToLower();
                 if (continueResponse != "y")
                 {
@@ -112,7 +112,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             Console.ResetColor();
         }
 
-        static void HandleCaloriesExceeded(string recipeName, int totalCalories)
+        static void HandleCaloriesExceeded(string recipeName, int totalCalories) //handles the delegate whether the calories exceed 300 (Japikse,2022)
         {
             Console.WriteLine($"Warning: The recipe '{recipeName}' exceeds 300 calories with a total of {totalCalories} calories.");
         }
@@ -128,7 +128,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
         private List<int> ingredientFoodGroup;
         private List<string> steps;
 
-        // Delegate instance for alerting the user
+        // Delegate instance for alerting the user (Japikse,2022)
         public static event CaloriesAlert CaloriesExceeded;
 
         public Recipe(string recipeName, List<string> ingredientNames, List<double> ingredientQuantities, List<string> ingredientUnits, List<int> ingredientCalories, List<int> ingredientFoodGroup, List<string> steps)
@@ -142,7 +142,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             this.steps = steps;
         }
 
-        public void DisplayRecipe()
+        public void DisplayRecipe() //method for displaying the recipe for the program (HitSubscribe, 2024)
         {
             Console.WriteLine($"\nRecipe Name: {recipeName}");
             Console.WriteLine("\nIngredients:");
@@ -160,7 +160,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             }
         }
 
-        public void DisplayTotalCalories()
+        public void DisplayTotalCalories() //method to calculate and display the total calories (Japikse,2022) (HitSubscribe, 2024)
         {
             int totalCalories = 0;
             for (int i = 0; i < ingredientCalories.Count; i++)
@@ -176,7 +176,7 @@ namespace JavierPenaGonzalez_ProgPoePart1
             }
         }
 
-        private string GetFoodGroupName(int groupNumber)
+        private string GetFoodGroupName(int groupNumber) //method for handling the case of food groups (Japikse,2022)
         {
             switch (groupNumber)
             {
@@ -211,3 +211,4 @@ namespace JavierPenaGonzalez_ProgPoePart1
 //S, J., 2010. Stackoverflow. [Online] 
 //Available at: https://stackoverflow.com/questions/2675196/c-sharp-method-to-scale-values
 //[Accessed 11 April 2024].
+//Stackify, HitSubscribe, 2024. [Online] Available: https://stackify.com/c-delegates-definition-types-examples/
